@@ -5,10 +5,17 @@
     <title>Rekap Postingan</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center px-4">
-    <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-2xl space-y-6">
-        <h1 class="text-2xl font-bold text-gray-800 text-center">Form Rekap Postingan</h1>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center px-4 py-6">
 
+    <!-- Header Instansi -->
+    <div class="mb-6 text-center">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Logo_Kemendikbud.png" alt="Logo Instansi" class="w-16 h-16 mx-auto mb-2">
+        <h1 class="text-xl sm:text-2xl font-bold text-gray-800">Madrasah Aliyah Negeri 2 Bantul</h1>
+        <p class="text-sm text-gray-600">Formulir Rekap Postingan Sosial Media & Portal Berita</p>
+    </div>
+
+    <!-- Form -->
+    <div class="bg-white shadow-xl rounded-2xl p-6 sm:p-8 w-full max-w-2xl space-y-6">
         @if(session('success'))
             <div class="bg-green-100 text-green-800 px-4 py-2 rounded border border-green-300 text-sm">
                 {{ session('success') }}
@@ -20,11 +27,10 @@
 
             <div class="space-y-1">
                 <label for="link" class="text-sm font-medium text-gray-700">Link Artikel / Sosial Media</label>
-                <div class="flex gap-2">
+                <div class="flex flex-col sm:flex-row gap-2">
                     <input type="url" name="link" id="link" required
                         class="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-                        placeholder="https://kompasiana.com/..."
-                        value="{{ old('link') }}">
+                        placeholder="https://kompasiana.com/..." value="{{ old('link') }}">
                     <button type="button" onclick="extractLink()" id="extractBtn"
                         class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
                         Ekstrak

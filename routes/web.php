@@ -20,5 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/', [PublicPostController::class, 'create'])->name('public.form');
-Route::post('/', [PublicPostController::class, 'store'])->name('public.store');
+Route::post('/', [PublicPostController::class, 'store'])
+    ->name('public.store')
+    ->middleware('throttle.form');
 Route::get('/extract', [LinkExtractorController::class, 'extract']);
