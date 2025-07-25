@@ -2,46 +2,116 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Form Rekap Postingan</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+    <title>Rekap Postingan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center">
-    <div class="bg-white shadow-xl rounded-xl p-8 w-full max-w-lg">
-        <h1 class="text-xl font-bold mb-6">Form Rekap Postingan</h1>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center px-4">
+    <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-2xl space-y-6">
+        <h1 class="text-2xl font-bold text-gray-800 text-center">Form Rekap Postingan</h1>
 
         @if(session('success'))
-            <div class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4">
+            <div class="bg-green-100 text-green-800 px-4 py-2 rounded border border-green-300 text-sm">
                 {{ session('success') }}
             </div>
         @endif
 
-        <form method="POST" action="{{ route('public.store') }}" class="space-y-4">
+        <form method="POST" action="{{ route('public.store') }}" class="space-y-4" id="postingForm">
             @csrf
-            <input type="text" name="title" placeholder="Judul" value="{{ old('title') }}" required class="w-full p-2 border rounded">
-            <input type="url" name="link" placeholder="Link" value="{{ old('link') }}" required class="w-full p-2 border rounded">
-            <input type="date" name="date_posted" value="{{ old('date_posted') }}" required class="w-full p-2 border rounded">
 
-            <select name="category" required class="w-full p-2 border rounded">
-                <option value="">Pilih Kategori</option>
-                <option value="social_media">Sosial Media</option>
-                <option value="news_portal">Portal Berita</option>
-            </select>
+            <div class="space-y-1">
+                <label for="link" class="text-sm font-medium text-gray-700">Link Artikel / Sosial Media</label>
+                <div class="flex gap-2">
+                    <input type="url" name="link" id="link" required
+                        class="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+                        placeholder="https://kompasiana.com/..."
+                        value="{{ old('link') }}">
+                    <button type="button" onclick="extractLink()" id="extractBtn"
+                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                        Ekstrak
+                    </button>
+                </div>
+                <div id="extractStatus" class="text-xs text-gray-600 italic mt-1 hidden">🔄 Mengambil data...</div>
+            </div>
 
-            <select name="platform" required class="w-full p-2 border rounded">
-                <option value="">Pilih Platform</option>
-                <option value="instagram">Instagram</option>
-                <option value="facebook">Facebook</option>
-                <option value="threads">Threads</option>
-                <option value="twitter">Twitter</option>
-                <option value="tiktok">TikTok</option>
-                <option value="kompasiana">Kompasiana</option>
-                <option value="retizen">Retizen</option>
-                <option value="telik_sandi">Telik Sandi</option>
-                <option value="man_2_bantul">MAN 2 Bantul</option>
-            </select>
+            <div class="space-y-1">
+                <label for="title" class="text-sm font-medium text-gray-700">Judul</label>
+                <input type="text" name="title" id="title" required
+                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+                    value="{{ old('title') }}">
+            </div>
 
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Kirim</button>
+            <div class="space-y-1">
+                <label for="date_posted" class="text-sm font-medium text-gray-700">Tanggal Posting</label>
+                <input type="date" name="date_posted" id="date_posted" required
+                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+                    value="{{ old('date_posted') }}">
+            </div>
+
+            <div class="space-y-1">
+                <label for="category" class="text-sm font-medium text-gray-700">Kategori</label>
+                <select name="category" id="category" required
+                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300">
+                    <option value="">Pilih kategori...</option>
+                    <option value="social_media">Sosial Media</option>
+                    <option value="news_portal">Portal Berita</option>
+                </select>
+            </div>
+
+            <div class="space-y-1">
+                <label for="platform" class="text-sm font-medium text-gray-700">Platform</label>
+                <select name="platform" id="platform" required
+                    class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-300">
+                    <option value="">Pilih platform...</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="facebook">Facebook</option>
+                    <option value="threads">Threads</option>
+                    <option value="twitter">Twitter</option>
+                    <option value="tiktok">TikTok</option>
+                    <option value="kompasiana">Kompasiana</option>
+                    <option value="retizen">Retizen</option>
+                    <option value="telik_sandi">Telik Sandi</option>
+                    <option value="man_2_bantul">MAN 2 Bantul</option>
+                </select>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">
+                Simpan Postingan
+            </button>
         </form>
     </div>
+
+    <script>
+        function extractLink() {
+            const linkInput = document.getElementById('link');
+            const titleInput = document.getElementById('title');
+            const dateInput = document.getElementById('date_posted');
+            const status = document.getElementById('extractStatus');
+            const button = document.getElementById('extractBtn');
+
+            const url = linkInput.value;
+            if (!url) return alert('Masukkan link terlebih dahulu.');
+
+            status.classList.remove('hidden');
+            status.textContent = '🔄 Mengambil data...';
+            button.disabled = true;
+
+            fetch(`/extract?url=${encodeURIComponent(url)}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.title) titleInput.value = data.title;
+                    if (data.date_posted) dateInput.value = data.date_posted;
+
+                    status.textContent = '✅ Data berhasil diambil';
+                })
+                .catch(() => {
+                    status.textContent = '❌ Gagal mengambil data dari link.';
+                })
+                .finally(() => {
+                    button.disabled = false;
+                    setTimeout(() => status.classList.add('hidden'), 3000);
+                });
+        }
+    </script>
 </body>
 </html>

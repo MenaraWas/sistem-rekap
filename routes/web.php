@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PublicPostController;
+use App\Http\Controllers\LinkExtractorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,4 @@ Route::get('/', function () {
 
 Route::get('/', [PublicPostController::class, 'create'])->name('public.form');
 Route::post('/', [PublicPostController::class, 'store'])->name('public.store');
+Route::get('/extract', [LinkExtractorController::class, 'extract']);
