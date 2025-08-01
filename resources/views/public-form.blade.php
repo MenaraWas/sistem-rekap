@@ -116,35 +116,64 @@
 
     <script>
         function extractLink() {
-            const linkInput = document.getElementById('link');
-            const titleInput = document.getElementById('title');
-            const dateInput = document.getElementById('date_posted');
-            const status = document.getElementById('extractStatus');
-            const button = document.getElementById('extractBtn');
+        const linkInput = document.getElementById('link');
+        const titleInput = document.getElementById('title');
+        const dateInput = document.getElementById('date_posted');
+        const platformSelect = document.getElementById('platform');
+        const categorySelect = document.getElementById('category');
+        const status = document.getElementById('extractStatus');
+        const button = document.getElementById('extractBtn');
 
-            const url = linkInput.value;
-            if (!url) return alert('Masukkan link terlebih dahulu.');
+        const url = linkInput.value;
+        if (!url) return alert('Masukkan link terlebih dahulu.');
 
-            status.classList.remove('hidden');
-            status.textContent = '🔄 Mengambil data...';
-            button.disabled = true;
-
-            fetch(`/extract?url=${encodeURIComponent(url)}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.title) titleInput.value = data.title;
-                    if (data.date_posted) dateInput.value = data.date_posted;
-
-                    status.textContent = '✅ Data berhasil diambil';
-                })
-                .catch(() => {
-                    status.textContent = '❌ Gagal mengambil data dari link.';
-                })
-                .finally(() => {
-                    button.disabled = false;
-                    setTimeout(() => status.classList.add('hidden'), 3000);
-                });
+        // Deteksi otomatis platform & kategori
+        if (url.includes('man2bantul.id')) {
+            platformSelect.value = 'man_2_bantul';
+            categorySelect.value = 'news_portal';
+        } else if (url.includes('kompasiana.com')) {
+            platformSelect.value = 'kompasiana';
+            categorySelect.value = 'news_portal';
+        } else if (url.includes('retizen.republika.co.id')) {
+            platformSelect.value = 'retizen';
+            categorySelect.value = 'news_portal';
+        } else if (url.includes('instagram.com')) {
+            platformSelect.value = 'instagram';
+            categorySelect.value = 'social_media';
+        } else if (url.includes('facebook.com')) {
+            platformSelect.value = 'facebook';
+            categorySelect.value = 'social_media';
+        } else if (url.includes('tiktok.com')) {
+            platformSelect.value = 'tiktok';
+            categorySelect.value = 'social_media';
+        } else if (url.includes('threads.net')) {
+            platformSelect.value = 'threads';
+            categorySelect.value = 'social_media';
+        } else if (url.includes('x.com') || url.includes('twitter.com')) {
+            platformSelect.value = 'twitter';
+            categorySelect.value = 'social_media';
         }
+
+        // Tampilkan status
+        status.classList.remove('hidden');
+        status.textContent = '🔄 Mengambil data...';
+        button.disabled = true;
+
+        fetch(`/extract?url=${encodeURIComponent(url)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.title) titleInput.value = data.title;
+                if (data.date_posted) dateInput.value = data.date_posted;
+                status.textContent = '✅ Data berhasil diambil';
+            })
+            .catch(() => {
+                status.textContent = '❌ Gagal mengambil data dari link.';
+            })
+            .finally(() => {
+                button.disabled = false;
+                setTimeout(() => status.classList.add('hidden'), 3000);
+            });
+    }
     </script>
 </body>
 </html>

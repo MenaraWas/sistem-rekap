@@ -17,13 +17,16 @@ class ListPosts extends ListRecords
         return [
             Actions\CreateAction::make(),
             Actions\Action::make('export_excel')
-                ->label('Ekspor ke Excel')
-                ->icon('heroicon-o-arrow-down-tray')
-                ->action(function () {
-                    return response()->streamDownload(function () {
-                        echo Excel::raw(new PostsExport, \Maatwebsite\Excel\Excel::XLSX);
-                    }, 'rekap-postingan.xlsx');
-                }),
+            ->label('Ekspor ke Excel')
+            ->icon('heroicon-o-arrow-down-tray')
+            ->action(function () {
+                // Ambil data hasil filter dari tabel Filament
+                $filteredPosts = $this->getFilteredTableQuery()->get();
+
+                return response()->streamDownload(function () use ($filteredPosts) {
+                    echo Excel::raw(new \App\Exports\PostsExportFromCollection($filteredPosts), \Maatwebsite\Excel\Excel::XLSX);
+                }, 'rekap-postingan.xlsx');
+            }),
 
         ];
     }
