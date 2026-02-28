@@ -12,25 +12,22 @@ class PostSummaryWidget extends Widget
 
     protected static ?string $pollingInterval = '30s';
 
+    protected static ?int $sort = 2;
+
+    protected int|string|array $columnSpan = 1;
+
     protected function getViewData(): array
     {
+        $platformCounts = Post::selectRaw('platform, COUNT(*) as total')
+            ->groupBy('platform')
+            ->orderByDesc('total')
+            ->get();
+
+        $platforms = Platform::all()->keyBy('code');
+
         return [
-            'totalPosts' => Post::count(),
-            'platformCounts' => Post::selectRaw('platform, COUNT(*) as total')
-                ->groupBy('platform')
-                ->orderByDesc('total')
-                ->get(),
+            'platformCounts' => $platformCounts,
+            'platforms' => $platforms,
         ];
-    }
-
-    /**
-     * Helper untuk memilih ikon berdasarkan nama platform.
-     * Mengambil dari database, fallback ke default.
-     */
-    public function getPlatformIcon(string $platformCode): string
-    {
-        $platform = Platform::where('code', $platformCode)->first();
-
-        return $platform?->icon ?? 'heroicon-o-document-text';
     }
 }

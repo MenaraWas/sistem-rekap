@@ -5,13 +5,15 @@ namespace App\Filament\Resources\AdminResource\Widgets;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
 
-class MonthlyPostCart extends ChartWidget
+class PlatformChartWidget extends ChartWidget
 {
-    protected static ?string $heading = 'Statistik Post Bulanan';
+    protected static ?string $heading = 'Statistik Bulanan';
 
-    protected int|string|array $columnSpan = 'full';
+    protected static ?string $maxHeight = '280px';
 
-    protected static ?int $sort = 4;
+    protected static ?int $sort = 3;
+
+    protected int|string|array $columnSpan = 1;
 
     protected function getData(): array
     {
@@ -26,17 +28,23 @@ class MonthlyPostCart extends ChartWidget
         $values = [];
 
         foreach (range(1, 12) as $month) {
-            $labels[] = now()->setMonth($month)->format('M'); // Jan, Feb, dst
+            $labels[] = now()->setMonth($month)->format('M');
             $values[] = $data->firstWhere('month', $month)->total ?? 0;
         }
 
         return [
-            //
             'datasets' => [
                 [
-                    'label' => 'Jumlah Postingan',
+                    'label' => 'Postingan',
                     'data' => $values,
-                    'backgroundColor' => '#3b82f6', // biru
+                    'borderColor' => '#f59e0b',
+                    'backgroundColor' => 'rgba(245, 158, 11, 0.1)',
+                    'fill' => true,
+                    'tension' => 0.4,
+                    'pointBackgroundColor' => '#f59e0b',
+                    'pointBorderColor' => '#fff',
+                    'pointBorderWidth' => 2,
+                    'pointRadius' => 4,
                 ],
             ],
             'labels' => $labels,
@@ -45,6 +53,6 @@ class MonthlyPostCart extends ChartWidget
 
     protected function getType(): string
     {
-        return 'bar';
+        return 'line';
     }
 }

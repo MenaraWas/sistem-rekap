@@ -1,47 +1,50 @@
 <x-filament::widget>
     <x-filament::card>
-        {{-- Bagian Header Kartu --}}
-        <div class="flex items-center justify-between">
-            <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                Rekap Postingan
-            </h2>
-            <x-heroicon-o-chart-bar class="w-6 h-6 text-gray-400 dark:text-gray-500" />
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-base font-semibold text-gray-900 dark:text-white">Jumlah per Platform</h3>
+            <x-heroicon-o-squares-2x2 class="w-5 h-5 text-gray-400" />
         </div>
 
-        {{-- Angka Statistik Utama --}}
-        <div class="mt-4 text-center">
-            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Total Postingan</p>
-            <p class="text-5xl font-bold tracking-tight text-primary-600">
-                {{ $totalPosts }}
-            </p>
-        </div>
-
-        {{-- Garis Pemisah --}}
-        <div class="my-6 border-t border-gray-200 dark:border-gray-700"></div>
-
-        {{-- Bagian Rincian per Platform --}}
-        <div>
-            <h3 class="text-base font-medium text-gray-700 dark:text-gray-300">
-                Rincian per Platform
-            </h3>
-            <ul class="mt-3 space-y-3">
-                @forelse ($platformCounts as $item)
-                    <li class="flex items-center justify-between text-sm">
-                        <span class="flex items-center text-gray-600 dark:text-gray-400">
-                            {{-- Anda bisa membuat helper untuk ikon di sini jika mau --}}
-                            <x-dynamic-component :component="$this->getPlatformIcon($item->platform)" class="w-4 h-4 mr-3" />
-                            {{ Str::headline($item->platform) }}
+        <div class="space-y-3">
+            @forelse ($platformCounts as $item)
+                @php
+                    $platform = $platforms[$item->platform] ?? null;
+                    $colors = [
+                        'instagram' => 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400',
+                        'facebook' => 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
+                        'threads' => 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
+                        'twitter' => 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400',
+                        'tiktok' => 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
+                        'kompasiana' => 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400',
+                        'retizen' => 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
+                        'telik_sandi' => 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400',
+                        'man_2_bantul' => 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
+                        'kemenag_bantul' => 'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400',
+                    ];
+                    $badgeColor = $colors[$item->platform] ?? 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300';
+                @endphp
+                <div
+                    class="flex items-center justify-between py-1.5 border-b border-gray-100 dark:border-gray-700 last:border-0">
+                    <div class="flex items-center gap-2.5">
+                        @if($platform)
+                            <x-dynamic-component :component="$platform->icon"
+                                class="w-4 h-4 text-gray-500 dark:text-gray-400 shrink-0" />
+                        @endif
+                        <span class="text-sm text-gray-700 dark:text-gray-300">
+                            {{ $platform->name ?? Str::headline($item->platform) }}
                         </span>
-                        <span class="px-2 py-0.5 text-xs font-semibold text-primary-700 bg-primary-100 rounded-full">
-                            {{ $item->total }}
-                        </span>
-                    </li>
-                @empty
-                    <li class="text-sm text-center text-gray-500">
-                        Belum ada data postingan.
-                    </li>
-                @endforelse
-            </ul>
+                    </div>
+                    <span
+                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold {{ $badgeColor }}">
+                        {{ $item->total }}
+                    </span>
+                </div>
+            @empty
+                <div class="text-center py-6">
+                    <x-heroicon-o-inbox class="w-8 h-8 text-gray-300 dark:text-gray-600 mx-auto" />
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">Belum ada data</p>
+                </div>
+            @endforelse
         </div>
     </x-filament::card>
 </x-filament::widget>
