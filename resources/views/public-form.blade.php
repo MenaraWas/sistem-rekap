@@ -7,8 +7,7 @@
     <title>Rekap Postingan - MAN 2 Bantul</title>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32"
-        href="https://upload.wikimedia.org/wikipedia/commons/3/3c/Logo_Kemendikbud.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.png">
 
     <!-- Meta tags -->
     <meta name="description"
@@ -177,8 +176,7 @@
         <div class="mb-6 sm:mb-8 text-center w-full max-w-lg">
             <div
                 class="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 mb-4">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Logo_Kemendikbud.png" alt="Logo"
-                    class="w-9 h-9 sm:w-10 sm:h-10">
+                <img src="/images/logo.png" alt="Logo" class="w-9 h-9 sm:w-10 sm:h-10">
             </div>
             <h1 class="text-xl sm:text-2xl font-bold text-white tracking-tight">
                 MAN 2 Bantul
@@ -252,7 +250,8 @@
                         <option value="">Pilih platform...</option>
                         @foreach ($platforms as $platform)
                             <option value="{{ $platform->code }}" {{ old('platform') == $platform->code ? 'selected' : '' }}>
-                                {{ $platform->name }}</option>
+                                {{ $platform->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
