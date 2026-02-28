@@ -3,15 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Platform;
 use Illuminate\Http\Request;
 
 
 class PublicPostController extends Controller
 {
-    //
     public function create()
     {
-        return view('public-form');
+        $platforms = Platform::orderBy('name')->get();
+
+        $platformJson = $platforms->filter(function ($p) {
+            return $p->domain;
+        })->map(function ($p) {
+            return [
+                'code' => $p->code,
+                'domain' => $p->domain,
+                'category' => $p->category,
+            ];
+        })->values();
+
+        return view('public-form', compact('platforms', 'platformJson'));
     }
 
     public function store(Request $request)

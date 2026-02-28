@@ -2,22 +2,16 @@
 
 namespace App\Filament\Resources\AdminResource\Widgets;
 
+use App\Models\Platform;
 use App\Models\Post;
-use Filament\Widgets\Widget; // Diubah dari StatsOverviewWidget
-use Illuminate\Support\Str;
+use Filament\Widgets\Widget;
 
-class PostSummaryWidget extends Widget // Diubah dari BaseWidget
+class PostSummaryWidget extends Widget
 {
-    // Arahkan widget untuk menggunakan file view yang baru kita buat
     protected static string $view = 'components.post-summary-card';
 
-    // Properti ini mengatur seberapa sering widget akan refresh (polling)
     protected static ?string $pollingInterval = '30s';
-    
-    /**
-     * Metode ini akan mengirim data dari backend ke view.
-     * Menggantikan metode getCards().
-     */
+
     protected function getViewData(): array
     {
         return [
@@ -28,20 +22,15 @@ class PostSummaryWidget extends Widget // Diubah dari BaseWidget
                 ->get(),
         ];
     }
-    
+
     /**
      * Helper untuk memilih ikon berdasarkan nama platform.
-     * Fungsi ini harus public agar bisa diakses dari view.
+     * Mengambil dari database, fallback ke default.
      */
-    public function getPlatformIcon(string $platform): string
+    public function getPlatformIcon(string $platformCode): string
     {
-        return match ($platform) {
-            'instagram'   => 'heroicon-o-camera',
-            'facebook'    => 'heroicon-o-thumb-up',
-            'kompasiana',
-            'retizen'     => 'heroicon-o-newspaper',
-            'man_2_bantul'  => 'heroicon-o-academic-cap',
-            default       => 'heroicon-o-document-text',
-        };
+        $platform = Platform::where('code', $platformCode)->first();
+
+        return $platform?->icon ?? 'heroicon-o-document-text';
     }
 }

@@ -3,9 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
-use App\Filament\Resources\PostResource\RelationManagers;
+use App\Models\Platform;
 use App\Models\Post;
-use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -15,10 +14,6 @@ use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-
-
 
 class PostResource extends Resource
 {
@@ -39,17 +34,8 @@ class PostResource extends Resource
                         'news_portal' => 'Portal Berita',
                     ])->required(),
                 Select::make('platform')
-                    ->options([
-                        'instagram' => 'Instagram',
-                        'facebook' => 'Facebook',
-                        'threads' => 'Threads',
-                        'twitter' => 'Twitter',
-                        'tiktok' => 'TikTok',
-                        'kompasiana' => 'Kompasiana',
-                        'retizen' => 'Retizen',
-                        'telik_sandi' => 'Telik Sandi',
-                        'man_2_bantul' => 'MAN 2 Bantul',
-                    ])->required(),
+                    ->options(fn() => Platform::orderBy('name')->pluck('name', 'code')->toArray())
+                    ->required(),
             ]);
     }
 
@@ -57,7 +43,6 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                //
                 TextColumn::make('title')->searchable(),
                 TextColumn::make('link')->limit(50),
                 TextColumn::make('date_posted')->date(),
@@ -65,27 +50,15 @@ class PostResource extends Resource
                 TextColumn::make('platform')->badge(),
             ])
             ->filters([
-                //
-                 SelectFilter::make('category')
+                SelectFilter::make('category')
                     ->options([
                         'social_media' => 'Sosial Media',
                         'news_portal' => 'Portal Berita',
                     ]),
                 SelectFilter::make('platform')
-                    ->options([
-                        'instagram' => 'Instagram',
-                        'facebook' => 'Facebook',
-                        'threads' => 'Threads',
-                        'twitter' => 'Twitter',
-                        'tiktok' => 'TikTok',
-                        'kompasiana' => 'Kompasiana',
-                        'retizen' => 'Retizen',
-                        'telik_sandi' => 'Telik Sandi',
-                        'man_2_bantul' => 'MAN 2 Bantul',
-                    ]),
+                    ->options(fn() => Platform::orderBy('name')->pluck('name', 'code')->toArray()),
             ])
             ->defaultSort('date_posted', 'desc')
-            
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
@@ -98,9 +71,7 @@ class PostResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            //
-        ];
+        return [];
     }
 
     public static function getPages(): array
