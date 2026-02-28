@@ -9,19 +9,7 @@
             @forelse ($platformCounts as $item)
                 @php
                     $platform = $platforms[$item->platform] ?? null;
-                    $colors = [
-                        'instagram' => 'bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400',
-                        'facebook' => 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
-                        'threads' => 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
-                        'twitter' => 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-400',
-                        'tiktok' => 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300',
-                        'kompasiana' => 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400',
-                        'retizen' => 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
-                        'telik_sandi' => 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400',
-                        'man_2_bantul' => 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400',
-                        'kemenag_bantul' => 'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400',
-                    ];
-                    $badgeColor = $colors[$item->platform] ?? 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300';
+                    $badgeColor = 'bg-white text-gray-700 dark:bg-white/10 dark:text-gray-300 ring-1 ring-gray-200 dark:ring-gray-600';
                 @endphp
                 <div
                     class="flex items-center justify-between py-1.5 border-b border-gray-100 dark:border-gray-700 last:border-0">
