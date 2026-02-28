@@ -54,46 +54,55 @@
             width: 200%;
             height: 200%;
             background: radial-gradient(circle at 30% 50%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
+                radial-gradient(circle at 70% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
             animation: float 20s ease-in-out infinite;
         }
 
         @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(2%, -2%) rotate(1deg); }
-            66% { transform: translate(-1%, 1%) rotate(-1deg); }
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            33% {
+                transform: translate(2%, -2%) rotate(1deg);
+            }
+
+            66% {
+                transform: translate(-1%, 1%) rotate(-1deg);
+            }
         }
 
-        /* Glassmorphism card */
+        /* White card */
         .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
         /* Input styles */
         .form-input {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            color: #e2e8f0;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
             transition: all 0.3s ease;
         }
 
         .form-input:focus {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(16, 185, 129, 0.5);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+            background: #ffffff;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
             outline: none;
         }
 
         .form-input::placeholder {
-            color: rgba(148, 163, 184, 0.6);
+            color: #94a3b8;
         }
 
         .form-input option {
-            background: #1e293b;
-            color: #e2e8f0;
+            background: #ffffff;
+            color: #1e293b;
         }
 
         /* Extract button glow */
@@ -122,7 +131,7 @@
 
         /* Label style */
         .form-label {
-            color: rgba(148, 163, 184, 0.9);
+            color: #475569;
             font-size: 0.8rem;
             font-weight: 500;
             text-transform: uppercase;
@@ -131,9 +140,9 @@
 
         /* Success alert */
         .alert-success {
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #6ee7b7;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
         }
 
         /* Status badge animation */
@@ -142,14 +151,21 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Subtle divider */
         .form-divider {
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
         }
     </style>
 </head>
@@ -159,7 +175,8 @@
 
         <!-- Header -->
         <div class="mb-6 sm:mb-8 text-center w-full max-w-lg">
-            <div class="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 mb-4">
+            <div
+                class="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-500/10 border border-emerald-500/20 mb-4">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Logo_Kemendikbud.png" alt="Logo"
                     class="w-9 h-9 sm:w-10 sm:h-10">
             </div>
@@ -174,9 +191,9 @@
 
             <!-- Success Message -->
             @if (session('success'))
-            <div class="alert-success px-4 py-3 rounded-xl text-sm mb-5 status-badge">
-                ✅ {{ session('success') }}
-            </div>
+                <div class="alert-success px-4 py-3 rounded-xl text-sm mb-5 status-badge">
+                    ✅ {{ session('success') }}
+                </div>
             @endif
 
             <form method="POST" action="{{ route('public.store') }}" class="space-y-5" id="postingForm">
@@ -187,11 +204,11 @@
                     <label for="link" class="form-label block mb-1.5">Link Artikel / Sosial Media</label>
                     <div class="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:gap-2">
                         <input type="url" name="link" id="link" required
-                            class="form-input flex-1 px-4 py-2.5 rounded-xl text-sm"
-                            placeholder="https://..." value="{{ old('link') }}">
+                            class="form-input flex-1 px-4 py-2.5 rounded-xl text-sm" placeholder="https://..."
+                            value="{{ old('link') }}">
                         <button type="button" onclick="extractLink()" id="extractBtn"
                             class="btn-extract text-white px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap">
-                            ⚡ Ekstrak
+                            Ekstrak
                         </button>
                     </div>
                     <div id="extractStatus" class="text-xs text-slate-400 italic mt-2 hidden status-badge"></div>
@@ -203,8 +220,8 @@
                 <div>
                     <label for="title" class="form-label block mb-1.5">Judul</label>
                     <input type="text" name="title" id="title" required
-                        class="form-input w-full px-4 py-2.5 rounded-xl text-sm"
-                        value="{{ old('title') }}" placeholder="Judul artikel akan terisi otomatis...">
+                        class="form-input w-full px-4 py-2.5 rounded-xl text-sm" value="{{ old('title') }}"
+                        placeholder="Judul artikel akan terisi otomatis...">
                 </div>
 
                 <!-- Date & Category Row -->
@@ -212,15 +229,17 @@
                     <div>
                         <label for="date_posted" class="form-label block mb-1.5">Tanggal</label>
                         <input type="date" name="date_posted" id="date_posted" required
-                            class="form-input w-full px-4 py-2.5 rounded-xl text-sm"
-                            value="{{ old('date_posted') }}">
+                            class="form-input w-full px-4 py-2.5 rounded-xl text-sm" value="{{ old('date_posted') }}">
                     </div>
                     <div>
                         <label for="category" class="form-label block mb-1.5">Kategori</label>
-                        <select name="category" id="category" required class="form-input w-full px-4 py-2.5 rounded-xl text-sm">
+                        <select name="category" id="category" required
+                            class="form-input w-full px-4 py-2.5 rounded-xl text-sm">
                             <option value="">Pilih...</option>
-                            <option value="social_media" {{ old('category') == 'social_media' ? 'selected' : '' }}>Sosial Media</option>
-                            <option value="news_portal" {{ old('category') == 'news_portal' ? 'selected' : '' }}>Portal Berita</option>
+                            <option value="social_media" {{ old('category') == 'social_media' ? 'selected' : '' }}>Sosial
+                                Media</option>
+                            <option value="news_portal" {{ old('category') == 'news_portal' ? 'selected' : '' }}>Portal
+                                Berita</option>
                         </select>
                     </div>
                 </div>
@@ -228,10 +247,12 @@
                 <!-- Platform Select -->
                 <div>
                     <label for="platform" class="form-label block mb-1.5">Platform</label>
-                    <select name="platform" id="platform" required class="form-input w-full px-4 py-2.5 rounded-xl text-sm">
+                    <select name="platform" id="platform" required
+                        class="form-input w-full px-4 py-2.5 rounded-xl text-sm">
                         <option value="">Pilih platform...</option>
                         @foreach ($platforms as $platform)
-                            <option value="{{ $platform->code }}" {{ old('platform') == $platform->code ? 'selected' : '' }}>{{ $platform->name }}</option>
+                            <option value="{{ $platform->code }}" {{ old('platform') == $platform->code ? 'selected' : '' }}>
+                                {{ $platform->name }}</option>
                         @endforeach
                     </select>
                 </div>
