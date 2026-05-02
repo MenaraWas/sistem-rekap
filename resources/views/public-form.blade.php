@@ -200,16 +200,16 @@
                 <!-- Link Input -->
                 <div>
                     <label for="link" class="form-label block mb-1.5">Link Artikel / Sosial Media</label>
-                    <div class="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:gap-2">
+                    <div class="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:gap-3">
                         <input type="url" name="link" id="link" required
-                            class="form-input flex-1 px-4 py-2.5 rounded-xl text-sm" placeholder="https://..."
+                            class="form-input flex-1 px-4 py-3 sm:py-2.5 rounded-xl text-base sm:text-sm w-full" placeholder="https://..."
                             value="{{ old('link') }}">
                         <button type="button" onclick="extractLink()" id="extractBtn"
-                            class="btn-extract text-white px-5 py-2.5 rounded-xl text-sm font-semibold whitespace-nowrap">
+                            class="btn-extract text-white w-full sm:w-auto px-6 py-3 sm:py-2.5 rounded-xl text-base sm:text-sm font-semibold whitespace-nowrap">
                             Ekstrak
                         </button>
                     </div>
-                    <div id="extractStatus" class="text-xs text-slate-400 italic mt-2 hidden status-badge"></div>
+                    <div id="extractStatus" class="text-sm sm:text-xs text-slate-400 italic mt-2 hidden status-badge"></div>
                 </div>
 
                 <div class="form-divider"></div>
@@ -218,7 +218,7 @@
                 <div>
                     <label for="title" class="form-label block mb-1.5">Judul</label>
                     <input type="text" name="title" id="title" required
-                        class="form-input w-full px-4 py-2.5 rounded-xl text-sm" value="{{ old('title') }}"
+                        class="form-input w-full px-4 py-3 sm:py-2.5 rounded-xl text-base sm:text-sm" value="{{ old('title') }}"
                         placeholder="Judul artikel akan terisi otomatis...">
                 </div>
 
@@ -227,12 +227,12 @@
                     <div>
                         <label for="date_posted" class="form-label block mb-1.5">Tanggal</label>
                         <input type="date" name="date_posted" id="date_posted" required
-                            class="form-input w-full px-4 py-2.5 rounded-xl text-sm" value="{{ old('date_posted') }}">
+                            class="form-input w-full px-4 py-3 sm:py-2.5 rounded-xl text-base sm:text-sm" value="{{ old('date_posted') }}">
                     </div>
                     <div>
                         <label for="category" class="form-label block mb-1.5">Kategori</label>
                         <select name="category" id="category" required
-                            class="form-input w-full px-4 py-2.5 rounded-xl text-sm">
+                            class="form-input w-full px-4 py-3 sm:py-2.5 rounded-xl text-base sm:text-sm">
                             <option value="">Pilih...</option>
                             <option value="social_media" {{ old('category') == 'social_media' ? 'selected' : '' }}>Sosial
                                 Media</option>
@@ -246,7 +246,7 @@
                 <div>
                     <label for="platform" class="form-label block mb-1.5">Platform</label>
                     <select name="platform" id="platform" required
-                        class="form-input w-full px-4 py-2.5 rounded-xl text-sm">
+                        class="form-input w-full px-4 py-3 sm:py-2.5 rounded-xl text-base sm:text-sm">
                         <option value="">Pilih platform...</option>
                         @foreach ($platforms as $platform)
                             <option value="{{ $platform->code }}" {{ old('platform') == $platform->code ? 'selected' : '' }}>
@@ -260,7 +260,7 @@
 
                 <!-- Submit Button -->
                 <button type="submit"
-                    class="btn-submit w-full text-white px-4 py-3 rounded-xl text-sm font-semibold tracking-wide">
+                    class="btn-submit w-full text-white px-4 py-3.5 sm:py-3 rounded-xl text-base sm:text-sm font-semibold tracking-wide">
                     Simpan Postingan
                 </button>
             </form>
